@@ -4,7 +4,8 @@
 // mongoDB link and listening port are added to .env
 const mongoose = require("mongoose");
 const Book = require("./models/book.js");
-const booksController = require("./controllers/booksController");
+const booksController = require("./controllers/booksController"),
+  errorController = require("./controllers/errorController");
 const express = require("express"),
   app = express();
 app.set("view engine", "ejs");
@@ -47,6 +48,12 @@ app.get(
     res.render("books", { bookDetail: req.data });
   }
 );
+
+// Error handling using the errorController.js
+app.use(errorController.logErrors);
+app.use(errorController.respondNoResourceFound);
+app.use(errorController.respondInternalError);
+
 app.listen(app.get("port"), () => {
   console.log(`Server running at http://localhost:${app.get("port")}`);
 });
