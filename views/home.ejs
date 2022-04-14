@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab 10 Home page</title>
+    <link rel="stylesheet" href="/css/home.css" type="text/css" />
+  </head>
+  <body>
+    <div id="header"><b>Click on any book to see the details</b></div>
+    <div id="bookTable">
+      <table>
+        <% books.forEach(b=> { %>
+        <tr>
+          <td><a href="/books/<%=b.id %>"><%= b.name %></td>
+        </tr>
+        <% }); %>
+      </table>
+    </div>
+  </body>
+</html>
