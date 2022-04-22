@@ -3,7 +3,7 @@
 // express.js used for routing
 // mongoDB link and listening port are added to .env
 const mongoose = require("mongoose");
-const Book = require("./models/book.js");
+// const Book = require("./models/book.js");
 const booksController = require("./controllers/booksController"),
   errorController = require("./controllers/errorController");
 const express = require("express"),
@@ -21,6 +21,7 @@ app.use(
 );
 app.use(express.json());
 
+// Connect to the cloud mongoDB on Atlas
 require("dotenv").config();
 const uri = process.env.ATLAX_URI;
 
@@ -38,7 +39,6 @@ db.once("open", () => {
 app.get("/home", booksController.getAllBook, (req, res, next) => {
   console.log(req.data);
   res.render("home", { books: req.data });
-  //   res.send(req.data);
 });
 app.get(
   "/books/:bookNumber",
@@ -48,8 +48,18 @@ app.get(
     res.render("books", { bookDetail: req.data });
   }
 );
+// submit page routes
+app.get("/AddNewBook", booksController.getSubmitPage);
+app.post("/AddNewBook", booksController.saveBook);
+
+// delete page routes
+app.get("/DeleteABook", booksController.getAllBook, (req, res, next) => {
+  console.log(req.data);
+  res.render("DeleteABook", { books: req.data });
+});
 
 // Error handling using the errorController.js
+app.get("/error", booksController.getErrorPage);
 app.use(errorController.logErrors);
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalError);

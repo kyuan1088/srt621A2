@@ -54,6 +54,11 @@ table td {
     font-weight: bold;
 }
 
+#footer a + a:before{
+    content: " | ";
+    padding: 0 10px;
+}
+
 #footer a:hover {
     color: green;
 }

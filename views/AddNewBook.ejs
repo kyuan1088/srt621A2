@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Book Submit Page</title>
+    <link rel="stylesheet" href="/css/submit.css" type="text/css" />
+  </head>
+  <body>
+    <div id="header">Add a new book</div>
+    <div id="form">
+      <form action="/AddNewBook" method="post">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Name" required />
+        <label for="author">Author Name</label>
+        <input
+          type="text"
+          id="author"
+          name="author"
+          placeholder="Author"
+          required
+        />
+        <label for="link">Amazon Link</label>
+        <input
+          type="text"
+          id="link"
+          name="link"
+          placeholder="Amazon purchase link"
+          required
+        />
+        <input type="submit" name="submit" value="Submit" />
+      </form>
+    </div>
+    <div id="footer"><%- include('partials/navigation') %></div>
+  </body>
+</html>

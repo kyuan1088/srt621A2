@@ -13,10 +13,11 @@
       <table>
         <% books.forEach(b=> { %>
         <tr>
-          <td><a href="/books/<%=b.id %>"><%= b.name %></td>
+          <td><a href="/books/<%= b._id %>"><%= b.name %></td>
         </tr>
         <% }); %>
       </table>
     </div>
+    <div id="footer"><%- include('partials/navigation') %></div>
   </body>
 </html>

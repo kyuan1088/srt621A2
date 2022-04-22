@@ -10,14 +10,14 @@ body {
     margin-top: 100px;
     font-size: 20pt;
     color: rgb(60, 124, 110);
-    position: absolute;
+    position: relative;
     left: 40%;
 }
 
 #bookTable {
     left:38%;
-    margin-top: 200px;
-    position: absolute;
+    top: 50px;
+    position: relative;
 }
 table {
     
@@ -42,3 +42,25 @@ table tr:hover {
 }
 
 
+#footer {
+    position:relative;
+    left:40%;
+    top: 100px;
+}
+
+#footer a{
+    text-decoration: none;
+    font-size: 25px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+#footer a + a:before{
+    content: " | ";
+    color: red;
+    padding: 0 10px;
+}
+
+#footer a:hover {
+    color: green;
+}
