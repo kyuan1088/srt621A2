@@ -53,6 +53,7 @@ app.get("/AddNewBook", booksController.getSubmitPage);
 app.post("/AddNewBook", booksController.saveBook);
 
 // delete page routes
+// using the method override module to make delete a POST request
 app.use(
   methodOverride("_method", {
     methods: ["POST", "GET"],

@@ -18,8 +18,7 @@ exports.getAllBook = (req, res, next) => {
 };
 
 // Use the objectID from mongoDB to identify which book is queried by the user
-// The objectID of a book will be part of the URL using this method instead of /1 /2 /3.
-// Easier to manage if many books are added or deleted regularly to the Book collection on mongoDB.
+// If an error occured like the link is not found, then return to the home page.
 exports.respondWithName = (req, res, next) => {
   let objectID = req.params.bookNumber;
   Book.findById(objectID, (error, bookDetail) => {
