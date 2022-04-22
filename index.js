@@ -3,9 +3,9 @@
 // express.js used for routing
 // mongoDB link and listening port are added to .env
 const mongoose = require("mongoose");
-// const Book = require("./models/book.js");
 const booksController = require("./controllers/booksController"),
   errorController = require("./controllers/errorController");
+const methodOverride = require("method-override");
 const express = require("express"),
   app = express();
 app.set("view engine", "ejs");
@@ -53,10 +53,16 @@ app.get("/AddNewBook", booksController.getSubmitPage);
 app.post("/AddNewBook", booksController.saveBook);
 
 // delete page routes
+app.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"],
+  })
+);
 app.get("/DeleteABook", booksController.getAllBook, (req, res, next) => {
   console.log(req.data);
   res.render("DeleteABook", { books: req.data });
 });
+app.delete("/books/:bookNumber/delete", booksController.deleteBook);
 
 // Error handling using the errorController.js
 app.get("/error", booksController.getErrorPage);

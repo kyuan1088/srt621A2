@@ -4,10 +4,14 @@ var Book = require("../models/book");
 exports.getHomePage = (req, res) => {
   res.render("home");
 };
+
 // Use the find() method to query all documents in the Book collection.
 exports.getAllBook = (req, res, next) => {
   Book.find({}, (error, books) => {
-    if (error) next(error);
+    if (error) {
+      console.log("Error detected when grabing a list of book");
+      return res.redirect("/home");
+    }
     req.data = books;
     next();
   });
@@ -17,9 +21,14 @@ exports.getAllBook = (req, res, next) => {
 // The objectID of a book will be part of the URL using this method instead of /1 /2 /3.
 // Easier to manage if many books are added or deleted regularly to the Book collection on mongoDB.
 exports.respondWithName = (req, res, next) => {
-  let paramsName = req.params.bookNumber;
-  Book.findById(paramsName, (error, bookDetail) => {
-    if (error) next(error);
+  let objectID = req.params.bookNumber;
+  Book.findById(objectID, (error, bookDetail) => {
+    if (error) {
+      console.log(
+        "Error detected when browsing a book's detail, redirect back to home page"
+      );
+      return res.redirect("/home");
+    }
     req.data = bookDetail;
     next();
   });
@@ -56,11 +65,23 @@ exports.saveBook = (req, res, next) => {
       );
       return res.redirect("error");
     }
-    console.log(result);
-    res.redirect("home");
+    console.log(`${result} | New book added successfully`);
+    res.redirect("/home");
   });
 };
 
+// Delete a book, if successful redirect back to home page
+exports.deleteBook = (req, res, next) => {
+  let objectID = req.params.bookNumber;
+  Book.findByIdAndRemove(objectID, (error, result) => {
+    if (error) {
+      console.log(`Error removing a book with its ID: ${error}`);
+      return res.redirect("DeleteABook");
+    }
+    console.log("Successfully deleted a book, retuning to home page");
+    res.redirect("/home");
+  });
+};
 // ** Below are previous code for lab 10, left only for reference on changes for personal use **
 
 // exports.respondWithName = (req, res, next) => {

@@ -5,15 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book Deletion Page</title>
-    <link rel="stylesheet" href="/css/home.css" type="text/css" />
+    <link rel="stylesheet" href="/css/remove.css" type="text/css" />
   </head>
   <body>
-    <div id="header"><b>Click on any book to see the details</b></div>
+    <div id="header"><b>To delete a book, click on the red X button.</b></div>
     <div id="bookTable">
       <table>
         <% books.forEach(b=> { %>
         <tr>
-          <td><a href="/books/<%= b._id %>"><%= b.name %></td>
+          <td id="remove">
+            <a
+              href="<%= `/books/${b._id}/delete?_method=DELETE` %>"
+              onclick="return confirm('Are you sure you want to delete this book from the database?')"
+              >X</a
+            >
+          </td>
+          <td><%= b.name %></td>
         </tr>
         <% }); %>
       </table>
@@ -21,4 +28,3 @@
     <div id="footer"><%- include('partials/navigation') %></div>
   </body>
 </html>
-
