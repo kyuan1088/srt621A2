@@ -3,22 +3,21 @@
 // express.js used for routing
 // mongoDB link and listening port are added to .env
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const booksController = require("./controllers/booksController"),
   errorController = require("./controllers/errorController");
 const methodOverride = require("method-override");
 const express = require("express"),
   app = express();
 app.set("view engine", "ejs");
-
-// using the method override module to make delete a POST request
-app.use(
-  methodOverride("_method", {
-    methods: ["POST", "GET"],
-  })
-);
-
-// add static route to the public folder
 app.use(express.static("public"));
+
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
+app.use(methodOverride("_method", { methods: ["POST", "GET"] }));
+
+require("dotenv").config();
+const uri = process.env.ATLAS_URI;
+
 app.set("port", process.env.PORT || 3000);
 
 app.use(
@@ -27,10 +26,6 @@ app.use(
   })
 );
 app.use(express.json());
-
-// Connect to the cloud mongoDB on Atlas
-require("dotenv").config();
-const uri = process.env.ATLAS_URI;
 
 console.log(uri);
 
@@ -45,24 +40,20 @@ db.once("open", () => {
 });
 
 // use the controller to add data to views
-app.get("/home", booksController.getAllBook, (req, res, next) => {
+app.get("/home", booksController.getAllBook, (req, res) => {
   console.log(req.data);
   res.render("home", { books: req.data });
 });
-app.get(
-  "/books/:bookNumber",
-  booksController.respondWithName,
-  (req, res, next) => {
-    console.log(req.data);
-    res.render("books", { bookDetail: req.data });
-  }
-);
+app.get("/books/:bookNumber", booksController.respondWithName, (req, res) => {
+  console.log(req.data);
+  res.render("books", { bookDetail: req.data });
+});
 // submit page routes
 app.get("/AddNewBook", booksController.getSubmitPage);
 app.post("/AddNewBook", booksController.saveBook);
 
 // delete page routes
-app.get("/DeleteABook", booksController.getAllBook, (req, res, next) => {
+app.get("/DeleteABook", booksController.getAllBook, (req, res) => {
   console.log(req.data);
   res.render("DeleteABook", { books: req.data });
 });

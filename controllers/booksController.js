@@ -50,7 +50,7 @@ exports.getErrorPage = (req, res) => {
 // Create a new object using the Book Model
 // Save the object to the database collection upon user hit the submit button
 // Then redirect back to the home page
-exports.saveBook = (req, res, next) => {
+exports.saveBook = (req, res) => {
   let newBook = new Book({
     name: req.body.name,
     trueName: req.body.name,
@@ -70,9 +70,9 @@ exports.saveBook = (req, res, next) => {
 };
 
 // Delete a book, if successful redirect back to home page
-exports.deleteBook = (req, res, next) => {
+exports.deleteBook = (req, res) => {
   let objectID = req.params.bookNumber;
-  Book.findByIdAndRemove(objectID, (error, result) => {
+  Book.findByIdAndRemove(objectID, (error) => {
     if (error) {
       console.log(`Error removing a book with its ID: ${error}`);
       return res.redirect("DeleteABook");
