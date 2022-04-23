@@ -10,10 +10,17 @@ const express = require("express"),
   app = express();
 app.set("view engine", "ejs");
 
-app.set("port", process.env.PORT || 3000);
+// using the method override module to make delete a POST request
+app.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"],
+  })
+);
 
 // add static route to the public folder
 app.use(express.static("public"));
+app.set("port", process.env.PORT || 3000);
+
 app.use(
   express.urlencoded({
     extended: false,
@@ -23,9 +30,11 @@ app.use(express.json());
 
 // Connect to the cloud mongoDB on Atlas
 require("dotenv").config();
-const uri = process.env.ATLAX_URI;
+const uri = process.env.ATLAS_URI;
 
 console.log(uri);
+
+app.get("/home", booksController.getHomePage);
 
 mongoose.connect(uri, { useUnifiedTopology: true });
 
@@ -53,12 +62,6 @@ app.get("/AddNewBook", booksController.getSubmitPage);
 app.post("/AddNewBook", booksController.saveBook);
 
 // delete page routes
-// using the method override module to make delete a POST request
-app.use(
-  methodOverride("_method", {
-    methods: ["POST", "GET"],
-  })
-);
 app.get("/DeleteABook", booksController.getAllBook, (req, res, next) => {
   console.log(req.data);
   res.render("DeleteABook", { books: req.data });
