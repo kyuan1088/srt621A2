@@ -34,7 +34,7 @@ const uri = process.env.ATLAS_URI;
 
 console.log(uri);
 
-app.get("/home", booksController.getHomePage);
+app.get("home", booksController.getHomePage);
 
 mongoose.connect(uri, { useUnifiedTopology: true });
 
